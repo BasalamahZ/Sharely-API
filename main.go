@@ -1,11 +1,11 @@
 package main
 
 import (
+	"net/http"
 	"sharely/configs"
+	"sharely/controllers"
 	"sharely/repositories"
 	"sharely/services"
-	"sharely/controllers"
-	
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,6 +18,11 @@ func init() {
 
 func main() {
 	server := gin.Default()
+	server.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "welcome home",
+		})
+	})
 	authRepositry := repositories.NewAuthRepository()
 	authService := services.NewAuthService(&authRepositry)
 	authController := controllers.NewAuthController(&authService)
