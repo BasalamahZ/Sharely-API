@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"sharely/middlewares"
 	"sharely/models"
 	"sharely/services"
 
@@ -54,9 +55,20 @@ func (ac *authController) Login(c *gin.Context) {
 		})
 		return
 	}
+
+	userID := user.ID
+	token, err := middlewares.GenerateToken(userID)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status" : false,
+			"message": "Failed To Generate Token",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"success": true,
-		"message": user,
+		"message": token,
 	})
 }
 

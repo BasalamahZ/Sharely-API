@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"sharely/configs"
 	"sharely/controllers"
+	"sharely/middlewares"
 	"sharely/repositories"
 	"sharely/services"
 
@@ -28,5 +29,10 @@ func main() {
 	authController := controllers.NewAuthController(&authService)
 	server.POST("/register", authController.Register)
 	server.POST("/login", authController.Login)
+	server.GET("/user", middlewares.VerifyAuth, func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message" : "authorization",
+		})
+	})
 	server.Run()
 }

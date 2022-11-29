@@ -7,10 +7,11 @@ type User struct {
 	Fullname    string `binding:"required"`
 	Email       string `gorm:"unique" binding:"required,email"`
 	Password    string `binding:"required,min=6"`
-	PhoneNumber int    `binding:"required"`
+	PhoneNumber string `binding:"required"`
 }
 
 type LoginRequest struct {
 	Email    string `binding:"required,email"`
 	Password string `binding:"required,min=6"`
 }
+
